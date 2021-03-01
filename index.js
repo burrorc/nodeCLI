@@ -1,3 +1,18 @@
+const inquirer = require('inquirer');
+const chalk = require('chalk');
+const ageCalc = require('./ageCalc')
+const figlet = require('figlet')
+
+
+console.log(
+    chalk.cyan(
+        figlet.textSync('Age Calculator', {
+            font: 'Epic',
+            horizontalLayout: 'default',
+            verticalLayout: 'default'
+        })
+    ))
+
 const questionAnswer = () => {
     const questions = [
         {
@@ -8,37 +23,23 @@ const questionAnswer = () => {
         {
             name: "DOB",
             type: "input",
-            message: "What is your Date of Birth in (dd/mm/yyyy) format?"
+            message: "What is your Date of Birth in (mm/dd/yyyy) format?"
         },
     ];
     return inquirer.prompt(questions);
 }
 
 questionAnswer().then(answers => {
-    // Calculate Zodiac Sun-Sign
+    // display calculating
     console.log(
         chalk.yellow(
-            `Calculating ${answers.NAME}'s age the following date of birth ${answers.DOB}....`
+            `Calculating ${answers.NAME}'s age from the following date of birth ${answers.DOB}....`
         )
     );
-    const age = function(answers.DOB){
-
-    }
-    const sunSign = new SunSign().getSunSign(answers.DOB);
+    var ageString = ageCalc.ageCalc(answers.DOB)
     console.log(
-        chalk.yellow(
-            `Calculated Zodiac Sign of ${answers.NAME} is, [${sunSign}]`
-        )
-    );
-
-    const dataToProcess = {};
-    dataToProcess['name'] = answers.NAME;
-    dataToProcess['dob'] = answers.DOB;
-    dataToProcess['report'] = answers.REPORT_TYPES;
-    dataToProcess['sunsign'] = sunSign;
-    dataToProcess['duration'] = answers.DURATION;
-
-    // console.log(dataToProcess);
-    // Call API to get the Horoscope based on the sunSign
-    // horoscope.getHoroscope(dataToProcess);
-});
+        chalk.magenta(
+            `Congratulations ${answers.NAME}, you are ${ageString}`
+)
+    )
+        });
